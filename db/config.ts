@@ -1,6 +1,18 @@
-import { defineDb } from 'astro:db';
+import { defineDb } from "astro:db";
+import {
+  LessonPlans,
+  LessonObjectives,
+  LessonSteps,
+ LessonMaterials,
+  LessonJobs,
+} from "./tables";
 
-// https://astro.build/db/config
 export default defineDb({
-  tables: {}
+  tables: {
+    LessonPlans,
+    LessonObjectives,
+    LessonSteps,
+    LessonMaterials,
+    LessonJobs,
+  },
 });
