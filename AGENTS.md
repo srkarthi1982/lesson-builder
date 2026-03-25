@@ -26,5 +26,6 @@ MANDATORY: After completing each task, update this repo’s AGENTS.md Task Log (
 
 ## Task Log (Recent)
 - Keep newest first; include date and short summary.
+- 2026-03-25 Delivered Lesson Builder V1 manual planning workspace (Astro DB `Lessons`, ownership-enforced actions, Alpine global store, `/app` + detail route, archive/favorite/search filters, dashboard summary + high-signal notifications hooks, auth middleware scope fix); validated with `npm run typecheck` and `npm run build`.
 - 2026-02-09 Added repo-level AGENTS.md enforcement contract (workspace reference + mandatory task-log update rule).
 - 2026-02-09 Initialized repo AGENTS baseline for single-repo Codex/AI safety.
