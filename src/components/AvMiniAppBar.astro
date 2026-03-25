@@ -1,0 +1,28 @@
+---
+import { AvContainer, AvButton } from "@ansiversa/components";
+
+interface Props {
+  appKey: string;
+  appName: string;
+}
+
+const { appKey, appName } = Astro.props;
+---
+
+<header class="border-b border-white/10 bg-slate-950/80 backdrop-blur">
+  <AvContainer className="flex items-center justify-between py-4">
+    <div class="flex items-center gap-3">
+      <img src="/favicon.svg" alt="Lesson Builder logo" class="h-8 w-8 rounded-md" loading="lazy" />
+      <div>
+        <p class="text-xs uppercase tracking-[0.22em] text-slate-400">Ansiversa Mini App</p>
+        <p class="text-sm font-semibold text-white">{appName}</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="hidden rounded-full border border-white/20 px-2 py-1 text-[11px] text-slate-300 md:inline">
+        {appKey}
+      </span>
+      <AvButton href="/app" size="sm">Open Workspace</AvButton>
+    </div>
+  </AvContainer>
+</header>

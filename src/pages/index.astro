@@ -1,93 +1,43 @@
 ---
 import AppShell from "../layouts/AppShell.astro";
-import { AvContainer, AvButton } from "@ansiversa/components";
+import { AvButton, AvContainer } from "@ansiversa/components";
+import AvMiniAppBar from "../components/AvMiniAppBar.astro";
 
-const title = "Lesson Builder – Ansiversa";
-const description = "Build structured lesson plans quickly.";
+const title = "Lesson Builder | Ansiversa";
+const description = "A premium manual lesson planning workspace for teachers.";
 ---
 
 <AppShell title={title} description={description}>
-  <!-- Hero -->
-  <section class="av-hero">
-    <AvContainer size="narrow" className="av-hero__content--narrow">
-      <div class="av-hero__content">
-        <div class="av-kicker">
-          <span>Learning · Ansiversa Mini App</span>
-        </div>
-        <h1 class="av-gradient-text">Lesson Builder</h1>
-        <p>
-          Build structured lesson plans quickly.
-        </p>
-      </div>
-      <div class="av-cta-row">
-        <AvButton href="https://lesson-builder.ansiversa.com">Launch Lesson</AvButton>
+  <AvMiniAppBar appKey="lesson-builder" appName="Lesson Builder" />
+
+  <section class="py-20">
+    <AvContainer size="narrow" className="space-y-8 text-center">
+      <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Teacher-first planning workspace</p>
+      <h1 class="text-4xl font-semibold text-white md:text-6xl">Build clear lessons with calm focus.</h1>
+      <p class="mx-auto max-w-2xl text-lg text-slate-300">
+        Plan objectives, materials, steps, and notes in one streamlined space. Keep favorites close, archive old plans safely,
+        and stay organized without clutter.
+      </p>
+      <div class="flex justify-center">
+        <AvButton href="/app">Open Lesson Builder</AvButton>
       </div>
     </AvContainer>
   </section>
 
-  <!-- Problem -->
-  <section class="av-section">
-    <AvContainer size="narrow">
-      <div class="av-section-header">
-        <h2 class="av-section-title">The problem it solves</h2>
-        <p class="av-section-lead">
-          Learning tools are scattered across tabs, apps, and messy notes.
-        </p>
-      </div>
-      <div class="av-section-body space-y-3 text-slate-300">
-        <p>Lesson Builder focuses on one part of your learning flow and keeps it clear.</p>
-      </div>
-    </AvContainer>
-  </section>
-
-  <!-- Why this mini app -->
-  <section class="av-section">
-    <AvContainer size="narrow">
-      <div class="av-section-header">
-        <h2 class="av-section-title">Why Lesson Builder feels different</h2>
-        <p class="av-section-lead">
-          A focused mini app inside the larger Ansiversa ecosystem.
-        </p>
-      </div>
-      <div class="av-section-body">
-        <ul class="space-y-2 text-slate-300 list-disc list-inside">
-          <li>Designed specifically for learners, students, and educators.</li>
-          <li>Removes distractions so you can focus on actual understanding.</li>
-          <li>Built on the fast, unified Ansiversa ecosystem.</li>
-        </ul>
-      </div>
-    </AvContainer>
-  </section>
-
-  <!-- How it works -->
-  <section class="av-section">
-    <AvContainer size="narrow">
-      <div class="av-section-header">
-        <h2 class="av-section-title">How it works</h2>
-        <p class="av-section-lead">
-          Simple, clear steps so people can start in under a minute.
-        </p>
-      </div>
-      <ol class="av-section-body space-y-2 text-slate-300 list-decimal list-inside">
-        <li>Open Lesson Builder in your browser.</li>
-        <li>Add the topic, content, or material you want to work with.</li>
-        <li>Use the focused tools to learn, revise, or practice within minutes.</li>
-      </ol>
-    </AvContainer>
-  </section>
-
-  <!-- Final CTA -->
-  <section class="av-section">
-    <AvContainer size="narrow">
-      <div class="av-section-header">
-        <h2 class="av-section-title">Ready to try Lesson Builder?</h2>
-        <p class="av-section-lead">
-          Open the app, follow the simple flow, and let it handle the heavy lifting.
-        </p>
-      </div>
-      <div class="av-cta-row">
-        <AvButton href="https://lesson-builder.ansiversa.com">Start with Lesson</AvButton>
-      </div>
+  <section class="pb-20">
+    <AvContainer className="grid gap-4 md:grid-cols-3">
+      <article class="rounded-xl border border-white/10 bg-white/5 p-5">
+        <h2 class="font-medium text-white">Structured plans</h2>
+        <p class="mt-2 text-sm text-slate-300">Capture title, subject, topic, level, objective, materials, and flow in one lesson record.</p>
+      </article>
+      <article class="rounded-xl border border-white/10 bg-white/5 p-5">
+        <h2 class="font-medium text-white">Fast organization</h2>
+        <p class="mt-2 text-sm text-slate-300">Filter by subject, level, favorites, and archive state to find the right lesson in seconds.</p>
+      </article>
+      <article class="rounded-xl border border-white/10 bg-white/5 p-5">
+        <h2 class="font-medium text-white">Connected to Ansiversa</h2>
+        <p class="mt-2 text-sm text-slate-300">High-signal updates sync to your parent dashboard so progress is visible at a glance.</p>
+      </article>
     </AvContainer>
   </section>
 </AppShell>

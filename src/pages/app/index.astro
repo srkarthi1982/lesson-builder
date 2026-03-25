@@ -1,0 +1,110 @@
+---
+import AppShell from "../../layouts/AppShell.astro";
+import AvMiniAppBar from "../../components/AvMiniAppBar.astro";
+import { AvButton, AvContainer } from "@ansiversa/components";
+import { listLessonsForUser } from "../../actions";
+
+const user = Astro.locals.user;
+if (!user) return Astro.redirect("/");
+
+const lessons = await listLessonsForUser(user.id);
+const payload = JSON.stringify({ lessons, activeLessonId: null });
+---
+
+<AppShell title="Lesson Builder Workspace" description="Manage lessons and keep planning momentum.">
+  <AvMiniAppBar appKey="lesson-builder" appName="Lesson Builder" />
+
+  <main
+    x-data="$store.lessonBuilder"
+    x-init={`init(${payload.replace(/`/g, "\\`")})`}
+    class="pb-14"
+  >
+    <AvContainer className="space-y-6 py-8">
+      <section class="grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
+        <article class="rounded-xl border border-white/10 bg-white/5 p-4"><p class="text-xs text-slate-400">Total</p><p class="text-2xl text-white" x-text="lessons.length"></p></article>
+        <article class="rounded-xl border border-white/10 bg-white/5 p-4"><p class="text-xs text-slate-400">Active</p><p class="text-2xl text-white" x-text="activeLessons.length"></p></article>
+        <article class="rounded-xl border border-white/10 bg-white/5 p-4"><p class="text-xs text-slate-400">Favorites</p><p class="text-2xl text-white" x-text="favoriteLessons.length"></p></article>
+        <article class="rounded-xl border border-white/10 bg-white/5 p-4"><p class="text-xs text-slate-400">Archived</p><p class="text-2xl text-white" x-text="archivedLessons.length"></p></article>
+        <article class="rounded-xl border border-white/10 bg-white/5 p-4"><p class="text-xs text-slate-400">Subjects</p><p class="text-2xl text-white" x-text="subjectCount"></p></article>
+        <article class="rounded-xl border border-white/10 bg-white/5 p-4"><p class="text-xs text-slate-400">Updated (7d)</p><p class="text-2xl text-white" x-text="recentlyUpdatedCount"></p></article>
+      </section>
+
+      <section class="rounded-2xl border border-white/10 bg-slate-950/70 p-5 space-y-4">
+        <div class="flex flex-wrap items-center gap-3 justify-between">
+          <div class="flex flex-wrap gap-2">
+            <template x-for="tab in ['overview','lessons','favorites','archived']" :key="tab">
+              <button class="rounded-full border px-3 py-1 text-sm capitalize"
+                :class="activeTab === tab ? 'border-cyan-400 text-cyan-200' : 'border-white/20 text-slate-300'"
+                @click="setTab(tab)">
+                <span x-text="tab"></span>
+              </button>
+            </template>
+          </div>
+          <AvButton type="button" size="sm" @click="openCreateDrawer()">Create lesson</AvButton>
+        </div>
+
+        <div class="grid gap-3 md:grid-cols-4">
+          <input x-model="search" placeholder="Search title, subject, topic" class="md:col-span-2 rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-sm text-white" />
+          <select x-model="subjectFilter" class="rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-sm text-white">
+            <template x-for="subject in subjects()" :key="subject"><option :value="subject" x-text="subject === 'all' ? 'All subjects' : subject"></option></template>
+          </select>
+          <select x-model="levelFilter" class="rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-sm text-white">
+            <template x-for="level in levels()" :key="level"><option :value="level" x-text="level === 'all' ? 'All levels' : level"></option></template>
+          </select>
+        </div>
+
+        <template x-if="flash.message">
+          <p class="rounded-lg px-3 py-2 text-sm" :class="flash.type === 'success' ? 'bg-emerald-950/60 text-emerald-200' : 'bg-rose-950/60 text-rose-200'" x-text="flash.message"></p>
+        </template>
+
+        <div class="space-y-3">
+          <template x-if="filteredLessons.length === 0">
+            <div class="rounded-xl border border-dashed border-white/20 p-8 text-center text-slate-300">No lessons match these filters yet.</div>
+          </template>
+
+          <template x-for="lesson in filteredLessons" :key="lesson.id">
+            <article class="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div class="flex items-start justify-between gap-3">
+                <div>
+                  <a class="text-base font-semibold text-white hover:text-cyan-200" :href="`/app/lessons/${lesson.id}`" x-text="lesson.title"></a>
+                  <p class="text-sm text-slate-300 mt-1" x-text="[lesson.subject, lesson.topic, lesson.level].filter(Boolean).join(' • ') || 'No classification yet'"></p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button class="text-sm text-slate-300" @click="toggleFavorite(lesson)" :aria-label="lesson.isFavorite ? 'Remove favorite' : 'Add favorite'" x-text="lesson.isFavorite ? '★' : '☆'"></button>
+                  <button class="text-xs rounded border border-white/20 px-2 py-1 text-slate-300" @click="openEditDrawer(lesson)">Edit</button>
+                  <button x-show="lesson.status === 'active'" class="text-xs rounded border border-white/20 px-2 py-1 text-slate-300" @click="archiveLesson(lesson)">Archive</button>
+                  <button x-show="lesson.status === 'archived'" class="text-xs rounded border border-white/20 px-2 py-1 text-slate-300" @click="restoreLesson(lesson)">Restore</button>
+                </div>
+              </div>
+            </article>
+          </template>
+        </div>
+      </section>
+    </AvContainer>
+
+    <div x-show="drawerOpen" x-transition class="fixed inset-0 z-40 bg-black/50 p-4">
+      <div class="mx-auto mt-4 max-w-2xl rounded-xl border border-white/10 bg-slate-950 p-5">
+        <div class="mb-4 flex items-center justify-between">
+          <h2 class="text-lg font-semibold text-white" x-text="editingLessonId ? 'Edit lesson' : 'Create lesson'"></h2>
+          <button class="text-slate-300" @click="closeDrawer()">✕</button>
+        </div>
+        <form class="space-y-3" @submit.prevent="saveLesson()">
+          <input x-model="form.title" required placeholder="Lesson title" class="w-full rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white" />
+          <div class="grid gap-3 md:grid-cols-3">
+            <input x-model="form.subject" placeholder="Subject" class="rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white" />
+            <input x-model="form.topic" placeholder="Topic" class="rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white" />
+            <input x-model="form.level" placeholder="Level" class="rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white" />
+          </div>
+          <textarea x-model="form.objective" placeholder="Objective" class="h-20 w-full rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white"></textarea>
+          <textarea x-model="form.materialsText" placeholder="Materials" class="h-20 w-full rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white"></textarea>
+          <textarea x-model="form.stepsText" placeholder="Steps" class="h-28 w-full rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white"></textarea>
+          <textarea x-model="form.notes" placeholder="Notes" class="h-20 w-full rounded-lg border border-white/15 bg-slate-900 px-3 py-2 text-white"></textarea>
+          <div class="flex justify-end gap-2 pt-2">
+            <button type="button" class="rounded border border-white/20 px-3 py-1 text-sm text-slate-300" @click="closeDrawer()">Cancel</button>
+            <button type="submit" class="rounded bg-cyan-500 px-3 py-1 text-sm font-medium text-slate-950" :disabled="loading" x-text="loading ? 'Saving…' : 'Save lesson'"></button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</AppShell>
