@@ -1,6 +1,6 @@
 import { defineDb } from "astro:db";
-import { Lessons } from "./tables";
+import { lessonBuilderTables } from "./tables";
 
 export default defineDb({
-  tables: { Lessons },
+  tables: lessonBuilderTables,
 });
