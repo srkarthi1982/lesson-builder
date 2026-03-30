@@ -25,6 +25,7 @@ MANDATORY: After completing each task, update this repo’s AGENTS.md Task Log (
 - Review this repo's existing AGENTS.md Task Log history before making changes.
 
 ## Task Log (Recent)
+- 2026-03-30 Populated app-spec.md with implementation-aligned V1 documentation based on current repo behavior and conservative pre-verification review.
 - 2026-03-30 Initialized app-spec.md using standard V1 template from web repo.
 - 2026-03-30 Initialized app-spec.md using standard V1 template from web repo.
 - 2026-03-29 Completed readiness repair pass after DB isolation: preserved app-specific Turso DB env, added deprecated legacy lesson planning tables for non-destructive schema reconciliation, and verified `npm run typecheck`, `npm run build`, and `npm run db:push` all pass.
