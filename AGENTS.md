@@ -26,6 +26,7 @@ MANDATORY: After completing each task, update this repo’s AGENTS.md Task Log (
 
 ## Task Log (Recent)
 - 2026-03-30 Initialized app-spec.md using standard V1 template from web repo.
+- 2026-03-30 Initialized app-spec.md using standard V1 template from web repo.
 - 2026-03-29 Completed readiness repair pass after DB isolation: preserved app-specific Turso DB env, added deprecated legacy lesson planning tables for non-destructive schema reconciliation, and verified `npm run typecheck`, `npm run build`, and `npm run db:push` all pass.
 - 2026-03-29 Synced local repo to `origin/main` after stale local seed commit divergence blocked pull, aborted the interrupted rebase, and preserved prior local state on `backup/pre-pull-sync-2026-03-29`.
 - Keep newest first; include date and short summary.
