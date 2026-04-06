@@ -25,6 +25,7 @@ MANDATORY: After completing each task, update this repo’s AGENTS.md Task Log (
 - Review this repo's existing AGENTS.md Task Log history before making changes.
 
 ## Task Log (Recent)
+- 2026-04-06 Rolled out Landing Page Standard V1.1 to Batch 2: replaced the minimal public landing with the approved Ansiversa V1.1 landing system (`src/lib/landing.ts`, repo-local `LandingPageStandard.astro`, and truthful `src/pages/index.astro`) aligned to the verified DB-backed manual lesson-planning scope (create/edit/favorite/archive/restore/filter/detail, no AI lesson generation claims). Verification: `npm run typecheck` ✅, `npm run build` ✅ (rerun clean after transient Vite cache rename issue), landing `/` and protected sign-in CTA destination re-checked.
 - 2026-04-05 Completed Freeze Level 1 spec-driven verification against docs/app-spec.md; confirmed runtime/spec alignment for auth, lesson CRUD/favorite/archive flows, and safe route handling with no app-code fixes required.
 - 2026-03-30 Populated app-spec.md with implementation-aligned V1 documentation based on current repo behavior and conservative pre-verification review.
 - 2026-03-30 Initialized app-spec.md using standard V1 template from web repo.

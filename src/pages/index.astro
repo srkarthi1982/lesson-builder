@@ -1,43 +1,157 @@
 ---
 import AppShell from "../layouts/AppShell.astro";
-import { AvButton, AvContainer } from "@ansiversa/components";
-import AvMiniAppBar from "../components/AvMiniAppBar.astro";
+import LandingPageStandard from "../components/landing/LandingPageStandard.astro";
+import type { LandingPageContent } from "../lib/landing";
 
 const title = "Lesson Builder | Ansiversa";
-const description = "A premium manual lesson planning workspace for teachers.";
+const description = "Plan lessons with structured objectives, materials, and steps in one calm workspace.";
+const rootAppUrl = Astro.locals.rootAppUrl ?? "https://ansiversa.com";
+const appUrl = new URL("/app", Astro.url).toString();
+const signInUrl = new URL("/login", rootAppUrl);
+signInUrl.searchParams.set("returnTo", appUrl);
+const startHref = Astro.locals.isAuthenticated ? "/app" : signInUrl.toString();
+
+const landingContent: LandingPageContent = {
+  categoryLabel: "Education Planning",
+  appLabel: "Authenticated DB-backed workspace",
+  title: "Build lesson plans with structure instead of busywork.",
+  subtitle:
+    "Create, organize, favorite, archive, and revisit lesson plans with objectives, materials, steps, and notes in one teacher-focused workspace.",
+  heroBullets: [
+    "Capture title, subject, topic, level, objective, materials, steps, and notes in one lesson record",
+    "Use favorites, search, subject filters, and level filters to keep the right lessons close",
+    "Archive and restore older lesson plans without losing their structure",
+  ],
+  primaryCta: {
+    label: Astro.locals.isAuthenticated ? "Open Workspace" : "Sign in to Open",
+    href: startHref,
+  },
+  secondaryCta: {
+    label: "See Workflow",
+    href: "#workflow",
+    variant: "ghost",
+  },
+  heroNote:
+    "Current V1 is a manual lesson-planning workspace. It does not auto-generate lessons or objectives.",
+  heroPanel: {
+    eyebrow: "Lesson flow",
+    title: "Create → Organize → Revisit",
+    steps: [
+      "1. Create a lesson with the teaching details that matter",
+      "2. Favorite or filter lessons to keep the current set focused",
+      "3. Archive older plans without deleting them",
+    ],
+    meta: [
+      { value: "DB", label: "Persistence" },
+      { value: "Per-user", label: "Ownership" },
+    ],
+  },
+  features: {
+    title: "What Lesson Builder gives you in V1",
+    lead:
+      "The product is built for manual lesson planning with strong structure, not for automated content generation.",
+    items: [
+      {
+        title: "Structured lesson records",
+        description:
+          "Keep objective, materials, steps, notes, subject, topic, and level in one lesson record that stays readable on revisit.",
+      },
+      {
+        title: "Fast organization",
+        description:
+          "Use search, subject filters, level filters, favorites, and archive views to focus on the right teaching material.",
+      },
+      {
+        title: "Detail route for full review",
+        description:
+          "Open the lesson detail route when the workspace summary is not enough for the full objective and teaching flow.",
+      },
+      {
+        title: "Archive without losing planning history",
+        description:
+          "Move older lesson plans out of the active set while keeping them available for later reuse or reference.",
+      },
+    ],
+  },
+  pillars: {
+    title: "Why this works as a teacher-focused planning workspace",
+    lead:
+      "The product stays simple on purpose: one protected workspace, one lesson record model, and one clear way to revisit planning context later.",
+    items: [
+      {
+        title: "Truthful product boundary",
+        description:
+          "This is a manual planning workspace for lessons you write yourself, not an AI lesson generator.",
+      },
+      {
+        title: "Teaching-first structure",
+        description:
+          "Objectives, materials, steps, and notes stay in one record so the lesson reads like a plan instead of scattered fragments.",
+      },
+      {
+        title: "Dependable filtering",
+        description:
+          "Favorites plus subject and level filters make it easier to return to the right lessons without digging through noise.",
+      },
+      {
+        title: "Protected personal library",
+        description:
+          "Routes and data stay owner-scoped so one user’s lesson plans remain separate from another’s.",
+      },
+    ],
+  },
+  workflow: {
+    eyebrow: "How it works",
+    title: "Move from lesson draft to reusable teaching plan",
+    lead:
+      "The workflow is designed for capturing lessons clearly now and finding them again later without losing context.",
+    steps: [
+      {
+        title: "Create the lesson",
+        description:
+          "Start in the workspace and save the title, subject, level, objective, materials, steps, and notes.",
+      },
+      {
+        title: "Organize the active set",
+        description:
+          "Use favorites and filters to separate the lessons you are using now from the ones you simply want to keep.",
+      },
+      {
+        title: "Review or archive as needed",
+        description:
+          "Open the detail route for the full plan, then archive older lessons without deleting them from your library.",
+      },
+    ],
+  },
+  showcase: {
+    eyebrow: "Current product shape",
+    title: "Built for manual lesson planning, not automatic lesson generation",
+    description:
+      "The landing copy stays aligned to the verified implementation: Lesson Builder helps one authenticated user keep structured lesson records in a DB-backed workspace.",
+    bullets: [
+      "Good fit for teachers and trainers who want reusable lesson plans with clear structure",
+      "Centered on manual planning, filtering, favorites, archive, and detail review",
+    ],
+    calloutLabel: "Freeze truth",
+    calloutValue: "Manual lesson planning only",
+  },
+  finalCta: {
+    title: "Start building the next lesson with clarity",
+    description:
+      "Open the workspace, capture the lesson plan properly, and keep the strongest teaching material easy to revisit.",
+    primaryCta: {
+      label: Astro.locals.isAuthenticated ? "Open Workspace" : "Sign in to Open",
+      href: startHref,
+    },
+    secondaryCta: {
+      label: "Review Features",
+      href: "#features",
+      variant: "ghost",
+    },
+  },
+};
 ---
 
 <AppShell title={title} description={description}>
-  <AvMiniAppBar appKey="lesson-builder" appName="Lesson Builder" />
-
-  <section class="py-20">
-    <AvContainer size="narrow" className="space-y-8 text-center">
-      <p class="text-xs uppercase tracking-[0.25em] text-slate-400">Teacher-first planning workspace</p>
-      <h1 class="text-4xl font-semibold text-white md:text-6xl">Build clear lessons with calm focus.</h1>
-      <p class="mx-auto max-w-2xl text-lg text-slate-300">
-        Plan objectives, materials, steps, and notes in one streamlined space. Keep favorites close, archive old plans safely,
-        and stay organized without clutter.
-      </p>
-      <div class="flex justify-center">
-        <AvButton href="/app">Open Lesson Builder</AvButton>
-      </div>
-    </AvContainer>
-  </section>
-
-  <section class="pb-20">
-    <AvContainer className="grid gap-4 md:grid-cols-3">
-      <article class="rounded-xl border border-white/10 bg-white/5 p-5">
-        <h2 class="font-medium text-white">Structured plans</h2>
-        <p class="mt-2 text-sm text-slate-300">Capture title, subject, topic, level, objective, materials, and flow in one lesson record.</p>
-      </article>
-      <article class="rounded-xl border border-white/10 bg-white/5 p-5">
-        <h2 class="font-medium text-white">Fast organization</h2>
-        <p class="mt-2 text-sm text-slate-300">Filter by subject, level, favorites, and archive state to find the right lesson in seconds.</p>
-      </article>
-      <article class="rounded-xl border border-white/10 bg-white/5 p-5">
-        <h2 class="font-medium text-white">Connected to Ansiversa</h2>
-        <p class="mt-2 text-sm text-slate-300">High-signal updates sync to your parent dashboard so progress is visible at a glance.</p>
-      </article>
-    </AvContainer>
-  </section>
+  <LandingPageStandard content={landingContent} />
 </AppShell>
